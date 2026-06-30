@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main() {
+    // Inicializando uma matriz 3x3 (3 linhas e 3 colunas)
+    int tabela[3][3] = {
+        {5, 10, 15},
+        {2,  4,  6},
+        {1,  3,  5}
+    };
+    
+    int i, j;
+    int somaTotal = 0;
+    
+    printf("--- ESTRUTURA DA MATRIZ ---\n");
+    // i percorre as linhas e j percorre as colunas
+    for(i = 0; i < 3; i++) {
+        for(j = 0; j < 3; j++) {
+            printf("%d\t", tabela[i][j]);
+            somaTotal += tabela[i][j]; // Acumula o valor de cada posicao
+        }
+        printf("\n"); // Quebra de linha ao fim de cada linha da matriz
+    }
+
+    printf("\nA soma de todos os elementos da matriz e: %d\n", somaTotal);
+    
+    return 0;
+}
