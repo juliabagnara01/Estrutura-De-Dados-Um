@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 4
+
+typedef struct {
+    int dados[MAX];
+    int topo;
+} PilhaEstatica;
+
+void inicializar(PilhaEstatica *p) {
+    p->topo = -1;
+}
+
+int esta_vazia(PilhaEstatica *p) {
+    return p->topo == -1;
+}
+
+int esta_cheia(PilhaEstatica *p) {
+    return p->topo == MAX - 1;
+}
+
+void push(PilhaEstatica *p, int valor) {
+    if (esta_cheia(p)) {
+        printf("Erro de Overflow: A pilha atingiu o limite maximo de %d elementos!\n", MAX);
+        return;
+    }
+    
+    p->topo++;
+    p->dados[p->topo] = valor;
+    printf("Elemento %d empilhado com sucesso.\n", valor);
+}
+
+int pop(PilhaEstatica *p) {
+    if (esta_vazia(p)) {
+        printf("Erro de Underflow: Nao e possivel remover de uma pilha vazia!\n");
+        return -1;
+    }
+    
+    int valor_removido = p->dados[p->topo];
+    p->topo--;
+    
+    return valor_removido;
+}
+
+void mostrar_pilha(PilhaEstatica *p) {
+    if (esta_vazia(p)) {
+        printf("A pilha esta vazia atualmente.\n");
+        return;
+    }
+    
+    printf("\n--- PILHA ESTATICA (VETOR) ---\n");
+    for (int i = p->topo; i >= 0; i--) {
+        printf("Indice [%d] -> Valor: %d\n", i, p->dados[i]);
+    }
+    printf("------------------------------\n");
+}
+
+int main() {
+    PilhaEstatica minhaPilha;
+    inicializar(&minhaPilha);
+
+    push(&minhaPilha, 10);
+    push(&minhaPilha, 20);
+    push(&minhaPilha, 30);
+    
+    mostrar_pilha(&minhaPilha);
+
+    int retirado = pop(&minhaPilha);
+    printf("\nValor retirado pelo POP: %d\n", retirado);
+
+    mostrar_pilha(&minhaPilha);
+
+    printf("\nTentando forcar um estouro de capacidade:\n");
+    push(&minhaPilha, 40);
+    push(&minhaPilha, 50);
+    push(&minhaPilha, 60);
+
+    return 0;
+}
