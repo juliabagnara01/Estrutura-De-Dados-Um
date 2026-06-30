@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct lista {
+    int info;
+    struct lista* prox;
+} Lista;
+
+
+// Funcao para inserir no inicio (base)
+Lista* insere(Lista* l, int i) {
+    Lista* novo = (Lista*) malloc(sizeof(Lista));
+    novo->info = i;
+    novo->prox = l;
+    return novo;
+}
+
+
+// Funcao de busca que retorna o ponteiro do no caso encontre o valor
+Lista* busca(Lista* l, int v) {
+    Lista* p;
+    // Percorre a lista testando o valor de cada no
+    for (p = l; p != NULL; p = p->prox) {
+        if (p->info == v) {
+            return p; 
+        }
+    }
+    return NULL; 
+}
+
+
+int main(void) {
+    Lista* minhaLista = NULL; 
+    minhaLista = insere(minhaLista, 15);
+    minhaLista = insere(minhaLista, 30);
+    minhaLista = insere(minhaLista, 45);
+    
+    int valorProcurado = 30;
+    
+    Lista* resultado = busca(minhaLista, valorProcurado);
+    
+    printf("--- BUSCA NA LISTA ---\n");
+    if (resultado != NULL) {
+        printf("O valor %d foi encontrado com sucesso na memoria!\n", resultado->info);
+    } else {
+        printf("O valor %d nao pertence a lista.\n", valorProcurado);
+    }
+    return 0;
+}
