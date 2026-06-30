@@ -1,0 +1,90 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct no {
+    int chave;
+    struct no* esq;
+    struct no* dir;
+} No;
+
+No* criar_no(int valor) {
+    No* novo = (No*) malloc(sizeof(No));
+    novo->chave = valor;
+    novo->esq = NULL;
+    novo->dir = NULL;
+    return novo;
+}
+
+No* inserir(No* raiz, int valor) {
+    if (raiz == NULL) {
+        return criar_no(valor);
+    }
+
+    if (valor < raiz->chave) {
+        raiz->esq = inserir(raiz->esq, valor);
+    } 
+    else if (valor > raiz->chave) {
+        raiz->dir = inserir(raiz->dir, valor);
+    }
+
+    return raiz;
+}
+
+void pre_ordem(No* raiz) {
+    if (raiz != NULL) {
+        printf("%d ", raiz->chave);
+        pre_ordem(raiz->esq);
+        pre_ordem(raiz->dir);
+    }
+}
+
+void em_ordem(No* raiz) {
+    if (raiz != NULL) {
+        em_ordem(raiz->esq);
+        printf("%d ", raiz->chave);
+        em_ordem(raiz->dir);
+    }
+}
+
+void pos_ordem(No* raiz) {
+    if (raiz != NULL) {
+        pos_ordem(raiz->esq);
+        pos_ordem(raiz->dir);
+        printf("%d ", raiz->chave);
+    }
+}
+
+void destruir_arvore(No* raiz) {
+    if (raiz != NULL) {
+        destruir_arvore(raiz->esq);
+        destruir_arvore(raiz->dir);
+        free(raiz);
+    }
+}
+
+int main() {
+    No* minhaArvore = NULL;
+
+    minhaArvore = inserir(minhaArvore, 50);
+    inserir(minhaArvore, 30);
+    inserir(minhaArvore, 70);
+    inserir(minhaArvore, 20);
+    inserir(minhaArvore, 40);
+
+    printf("--- TRAVESSIAS NA ARVORE BINARIA ---\n");
+    
+    printf("Caminhamento Pre-Ordem: ");
+    pre_ordem(minhaArvore);
+    printf("\n");
+
+    printf("Caminhamento Em-Ordem:  ");
+    em_ordem(minhaArvore);
+    printf("\n");
+
+    printf("Caminhamento Pos-Ordem: ");
+    pos_ordem(minhaArvore);
+    printf("\n");
+
+    destruir_arvore(minhaArvore);
+    return 0;
+}
