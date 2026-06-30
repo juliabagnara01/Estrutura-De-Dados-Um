@@ -1,0 +1,16 @@
+#include <stdio.h>
+int main() {
+    int idade;
+    float salario;
+  
+    printf("Digite sua idade: ");
+    scanf("%d", &idade);
+  
+    printf("Digite seu salario: ");
+    scanf("%f", &salario);
+  
+    printf("Idade: %d\n", idade);
+    printf("Salario: %.2f\n", salario);
+  
+    return 0;
+}
