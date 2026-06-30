@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h> 
+
+// Definicao da estrutura auto-referenciada do no da lista
+struct lista {
+    int info;           
+    struct lista* prox; 
+};
+typedef struct lista Lista;
+
+// Funcao para inicializar a lista como vazia
+Lista* inicializa(void) {
+    return NULL; 
+}
+
+
+// Funcao para inserir um novo elemento sempre no inicio da lista
+Lista* insere(Lista* l, int i) {
+    Lista* novo = (Lista*) malloc(sizeof(Lista));    
+    novo->info = i; 
+    novo->prox = l;     
+    return novo;     
+}
+
+
+// Funcao para percorrer e imprimir os elementos da lista
+void imprime(Lista* l) {
+    Lista* p; 
+    for (p = l; p != NULL; p = p->prox) {
+        printf("[%d] -> ", p->info);
+    }
+    printf("NULL\n"); 
+}
+
+
+int main(void) {
+    Lista* minhaLista = inicializa(); 
+    int valor;
+    int i;
+    
+  
+    for (i = 0; i < 5; i++) {
+        printf("Digite um numero para a lista: ");
+        scanf("%d", &valor);
+        // Sempre atualiza o ponteiro da lista com o retorno da funcao insere
+        minhaLista = insere(minhaLista, valor);
+    }
+    
+  
+    printf("\n--- LISTA ENCADEADA CRIADA ---\n");
+    imprime(minhaLista);
+    return 0;
+}
