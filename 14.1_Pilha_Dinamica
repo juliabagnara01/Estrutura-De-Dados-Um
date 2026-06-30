@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura de cada no da pilha (caixinha)
+typedef struct no {
+    int info;
+    struct no *prox;
+} No;
+
+// Estrutura que gerencia a pilha guardando a referencia do topo
+typedef struct pilha {
+    No *topo;
+} Pilha;
+
+// Funcao para criar e inicializar a pilha como vazia
+Pilha* criar_pilha() {
+    Pilha *p = (Pilha*) malloc(sizeof(Pilha));
+    p->topo = NULL; 
+    return p;
+}
+
+// Funcao que verifica se a pilha esta vazia (retorna 1 se sim, 0 se nao)
+int pilha_vazia(Pilha *p) {
+    return p->topo == NULL;
+}
+
+// Operacao PUSH: Insere um elemento sempre no topo da pilha
+void push(Pilha *p, int valor) {
+    No *novo = (No*) malloc(sizeof(No));
+    novo->info = valor;
+    
+    novo->prox = p->topo; 
+    p->topo = novo;       
+}
+
+// Operacao POP: Remove e retorna o elemento que esta no topo
+int pop(Pilha *p) {
+    if (pilha_vazia(p)) {
+        printf("Aviso: A pilha ja esta vazia!\n");
+        return -1; 
+    }
+    
+    No *aux = p->topo;   
+    int valor = aux->info;
+    
+    p->topo = aux->prox; 
+    free(aux);          
+    
+    return valor;
+}
+
+// Funcao para imprimir a pilha do topo ate a base
+void imprime_pilha(Pilha *p) {
+    if (pilha_vazia(p)) {
+        printf("Pilha vazia.\n");
+        return;
+    }
+    
+    No *aux = p->topo;
+    printf("\n--- ESTADO ATUAL DA PILHA ---\n");
+    while (aux != NULL) {
+        printf("[%d]\n", aux->info); // Imprime um embaixo do outro (efeito visual de pilha)
+        aux = aux->prox;
+    }
+    printf("====== (Base)\n");
+}
+
+int main() {
+    Pilha *minhaPilha = criar_pilha();
+
+    // Empilhando elementos (o 30 ficara no topo por ser o ultimo)
+    push(minhaPilha, 10);
+    push(minhaPilha, 20);
+    push(minhaPilha, 30);
+
+    imprime_pilha(minhaPilha);
+
+
+    int removido = pop(minhaPilha);
+    printf("\nElemento removido pelo POP: %d\n", removido);
+
+    imprime_pilha(minhaPilha);
+
+    return 0;
+}
