@@ -1,0 +1,11 @@
+ #include <stdio.h>
+int main() {
+    int a = 5;
+    int *p = &a; // Ponteiro p recebe o endereço da variável a
+    printf("Valor original de a: %d\n", a);
+    printf("Endereco de a na memoria: %p\n", &a);
+    printf("Valor de a acessado pelo ponteiro: %d\n", *p);
+    *p = 15; // Modifica o valor de a de forma indireta
+    printf("Novo valor de a apos alteracao via ponteiro: %d\n", a);
+    return 0;
+}
