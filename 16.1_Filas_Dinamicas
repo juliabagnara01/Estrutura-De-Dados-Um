@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+
+typedef struct no {
+    int dado;
+    struct no* prox;
+} No;
+
+
+typedef struct fila {
+    No* ini; // Aponta para o primeiro a ser atendido
+    No* fim; // Aponta para o ultimo a entrar
+} Fila;
+
+
+Fila* criar_fila() {
+    Fila* f = (Fila*) malloc(sizeof(Fila));
+    f->ini = NULL;
+    f->fim = NULL;
+    return f;
+}
+
+
+int fila_vazia(Fila* f) {
+    return f->ini == NULL;
+}
+
+
+void inserir(Fila* f, int valor) {
+    No* novo = (No*) malloc(sizeof(No));
+    novo->dado = valor;
+    novo->prox = NULL; 
+
+
+    if (fila_vazia(f)) {
+        f->ini = novo;
+    } else {
+        f->fim->prox = novo; // O antigo ultimo aponta para o novo que chegou
+    }
+    
+    f->fim = novo; // Atualiza o ponteiro de controle para o novo fim
+    printf("Valor %d entrou na fila.\n", valor);
+}
+
+// Operacao de Remocao (Dequeue): Remove sempre do INICIO da fila
+int remover(Fila* f) {
+    if (fila_vazia(f)) {
+        printf("Aviso: A fila ja esta vazia!\n");
+        return -1; // Codigo de erro
+    }
+
+    No* aux = f->ini;       
+    int valor = aux->dado;  
+
+    f->ini = f->ini->prox;  
+
+
+    if (f->ini == NULL) {
+        f->fim = NULL;
+    }
+
+    free(aux); 
+    return valor;
+}
+
+
+void mostrar_fila(Fila* f) {
+    if (fila_vazia(f)) {
+        printf("A fila esta vazia.\n");
+        return;
+    }
+
+    No* aux = f->ini;
+    printf("\n--- ESTADO DA FILA (Sentido: Inicio -> Fim) ---\n");
+    while (aux != NULL) {
+        printf("[%d] ", aux->dado);
+        aux = aux->prox;
+    }
+    printf("\n----------------------------------------------\n");
+}
+
+int main() {
+    Fila* minhaFila = criar_fila();
+
+
+    inserir(minhaFila, 100);
+    inserir(minhaFila, 200);
+    inserir(minhaFila, 300);
+
+    mostrar_fila(minhaFila); 
+
+
+    int atendi = remover(minhaFila);
+    printf("\nElemento atendido e removido: %d\n", atendi);
+
+
+    mostrar_fila(minhaFila);
+
+    return 0;
+}
