@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int main() {
+    float notas[4]; // Cria um vetor para armazenar 4 notas
+    float soma = 0, media;
+    int i;
+    
+    // Lendo as notas do usuario usando um loop
+    for(i = 0; i < 4; i++) {
+        printf("Digite a nota do aluno %d: ", i + 1);
+        scanf("%f", &notas[i]);
+    }
+    
+    // Percorrendo o vetor linearmente para acumular a soma
+    for(i = 0; i < 4; i++) {
+        soma += notas[i];
+    }
+    
+    media = soma / 4;
+    
+    printf("\nA media das notas informadas e: %.2f\n", media);
+    
+    return 0;
+}
