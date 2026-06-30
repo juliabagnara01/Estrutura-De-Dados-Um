@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura do no com ponteiro para o anterior e para o proximo
+typedef struct lista {
+    int info;
+    struct lista* ant;
+    struct lista* prox;
+} Lista;
+
+// Funcao auxiliar para criar e inicializar um no isolado na memoria
+Lista* criarNo(int valor) {
+    Lista* novo = (Lista*) malloc(sizeof(Lista));
+    novo->info = valor;
+    novo->ant = NULL;
+    novo->prox = NULL;
+    return novo;
+}
+
+// Funcao para inserir um elemento no inicio da lista dupla
+Lista* insere_inicio(Lista* l, int valor) {
+    Lista* novo = criarNo(valor);
+    
+    novo->prox = l; 
+    
+    // Caso especial: se a lista nao estava vazia, o antigo primeiro no aponta para o novo
+    if (l != NULL) {
+        l->ant = novo;
+    }
+    
+    return novo;
+}
+
+// Funcao para inserir um elemento no final da lista dupla
+Lista* insere_final(Lista* l, int valor) {
+    Lista* novo = criarNo(valor);
+    
+    // Caso especial: se a lista estiver vazia, o novo no vira o primeiro
+    if (l == NULL) {
+        return novo;
+    }
+    
+    Lista* p = l;
+    // Varre a lista ate encontrar o ultimo no
+    while (p->prox != NULL) {
+        p = p->prox;
+    }
+    
+    // Faz as amarracoes de ida e volta no final da estrutura
+    p->prox = novo;
+    novo->ant = p;    
+    
+    return l; 
+}
+
+// Funcao para imprimir a lista da esquerda para a direita (para frente)
+void imprime_lista_dupla(Lista* l) {
+    Lista* p = l;
+    printf("Lista: NULL <- ");
+    while (p != NULL) {
+        printf("[%d] <-> ", p->info);
+        p = p->prox;
+    }
+    printf("NULL\n");
+}
+
+int main(void) {
+    Lista* minhaLista = NULL;
+
+    minhaLista = insere_inicio(minhaLista, 20);
+    minhaLista = insere_inicio(minhaLista, 10); 
+
+    // Testando a insercao no final
+    minhaLista = insere_final(minhaLista, 30);  
+    minhaLista = insere_final(minhaLista, 40);  
+
+    printf("--- EXIBICAO DA LISTA DUPLAMENTE ENCADEADA ---\n");
+    imprime_lista_dupla(minhaLista);
+
+
+    return 0;
+}
