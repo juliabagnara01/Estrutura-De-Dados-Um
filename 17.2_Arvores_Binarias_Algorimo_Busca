@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct no {
+    int chave;
+    struct no* esq;
+    struct no* dir;
+} No;
+
+No* inserir(No* raiz, int valor) {
+    if (raiz == NULL) {
+        No* novo = (No*) malloc(sizeof(No));
+        novo->chave = valor;
+        novo->esq = novo->dir = NULL;
+        return novo;
+    }
+    if (valor < raiz->chave) raiz->esq = inserir(raiz->esq, valor);
+    else if (valor > raiz->chave) raiz->dir = inserir(raiz->dir, valor);
+    return raiz;
+}
+
+// Algoritmo de Busca em BST: Eficiente e direto
+No* buscar(No* raiz, int valor_procurado) {
+    // Caso Base 1: Nao encontrou o elemento ou a arvore esta vazia
+    if (raiz == NULL) {
+        return NULL;
+    }
+    
+    // Caso Base 2: Encontrou o valor exatamente no no atual
+    if (raiz->chave == valor_procurado) {
+        return raiz;
+    }
+    
+    // Se o valor procurado for menor, busca apenas do lado esquerdo
+    if (valor_procurado < raiz->chave) {
+        return buscar(raiz->esq, valor_procurado);
+    } 
+    // Se o valor for maior, busca apenas do lado direito
+    else {
+        return buscar(raiz->dir, valor_procurado);
+    }
+}
+
+int main() {
+    No* raiz = NULL;
+    raiz = inserir(raiz, 100);
+    inserir(raiz, 50);
+    inserir(raiz, 150);
+
+    int alvo = 150;
+    No* resultado = buscar(raiz, alvo);
+
+    printf("\n--- RESULTADO DA BUSCA NA BST ---\n");
+    if (resultado != NULL) {
+        printf("Sucesso! O valor %d foi localizado na arvore.\n", resultado->chave);
+    } else {
+        printf("O valor %d nao existe nesta estrutura.\n", alvo);
+    }
+    return 0;
+}
