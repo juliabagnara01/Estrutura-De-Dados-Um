@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+typedef struct {
+    char nome[50];
+    int idade;
+} Pessoa;
+
+// Funcao que recebe a struct por ponteiro e altera a idade usando o operador ->
+void alterarIdade(Pessoa *p) {
+    p->idade = 30; // Modifica o valor original diretamente na memoria
+}
+
+int main() {
+    Pessoa pessoa1;
+    printf("Digite o nome: ");
+    scanf(" %[^\n]", pessoa1.nome);
+    
+    printf("Digite a idade atual: ");
+    scanf("%d", &pessoa1.idade);
+    
+    // Passando o endereco da struct para a funcao
+    alterarIdade(&pessoa1);
+    
+    printf("\n--- DADOS ALTERADOS VIA FUNCAO ---\n");
+    printf("Nome: %s\n", pessoa1.nome);
+    printf("Nova Idade: %d\n", pessoa1.idade); // A idade foi alterada para 30
+    
+    return 0;
+}
