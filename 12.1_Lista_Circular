@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Estrutura basica do no da lista
+typedef struct lista {
+    int info;
+    struct lista* prox;
+} Lista;
+
+// Funcao para inicializar a lista como vazia
+Lista* inicializa(void) {
+    return NULL;
+}
+
+// Funcao para inserir um elemento no final da lista circular
+Lista* insere_final(Lista* l, int valor) {
+    // 1. Aloca memoria para o novo no
+    Lista* novo = (Lista*) malloc(sizeof(Lista));
+    novo->info = valor;
+
+    // Caso especial: Se a lista estiver vazia, o elemento aponta para si mesmo
+    if (l == NULL) {
+        novo->prox = novo;
+        return novo; // O novo no se torna o inicio da lista circular
+    }
+
+    // 2. Cria um ponteiro auxiliar para percorrer a estrutura
+    Lista* p = l;
+    
+    // Caminha pela lista ate encontrar o ultimo no (aquele que aponta pro inicio)
+    while (p->prox != l) {
+        p = p->prox;
+    }
+
+    // 3. Faz as novas amarracoes dos ponteiros para fechar o circulo
+    p->prox = novo;  // O antigo ultimo no aponta para o novo elemento
+    novo->prox = l;  // O novo elemento passa a apontar para o inicio da lista
+
+    return l; // Retorna o ponteiro inicial inalterado
+}
+
+// Funcao para imprimir os elementos utilizando do...while
+void imprime_circular(Lista* l) {
+    if (l == NULL) {
+        printf("Lista vazia!\n");
+        return;
+    }
+
+    Lista* p = l;
+    printf("Inicio -> ");
+    
+    // Executa a impressao e o avanco antes de testar se voltou ao começo
+    do {
+        printf("[%d] -> ", p->info);
+        p = p->prox;
+    } while (p != l);
+    
+    printf("Voltou ao Inicio\n");
+}
+
+int main(void) {
+    Lista* minhaLista = inicializa();
+
+    // Inserindo elementos de forma sequencial no fim
+    minhaLista = insere_final(minhaLista, 10);
+    minhaLista = insere_final(minhaLista, 20);
+    minhaLista = insere_final(minhaLista, 30);
+    minhaLista = insere_final(minhaLista, 40);
+
+    // Exibindo o resultado da lista circular
+    printf("--- ESTRUTURA DA LISTA CIRCULAR ---\n");
+    imprime_circular(minhaLista);
+
+    return 0;
+}
