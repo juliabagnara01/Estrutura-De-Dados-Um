@@ -1,0 +1,11 @@
+#include <stdio.h>
+int main() {
+    int arr[3] = {15, 25, 35};
+    int *p = arr; 
+
+    printf("Posicao 0: %d\n", *p);
+    printf("Posicao 1: %d\n", *(p + 1));
+    printf("Posicao 2: %d\n", *(p + 2));
+
+    return 0;
+}
