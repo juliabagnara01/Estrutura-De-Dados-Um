@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+typedef struct {
+    char nome[90];
+    float nota;
+} Aluno;
+
+int main() {
+    Aluno turma[3]; // Criando um vetor para armazenar 3 structs de alunos
+    int i;
+    // Laco para leitura dos dados de cada aluno
+    
+    for(i = 0; i < 3; i++) {
+        printf("\nAluno %d\n", i + 1);
+        printf("Digite o nome: ");
+        scanf(" %[^\n]", turma[i].nome);
+        printf("Digite a nota: ");
+        scanf("%f", &turma[i].nota);
+    }
+    // Laco para exibicao dos dados cadastrados
+    printf("\n--- LISTA DE ALUNOS ---\n");
+    for(i = 0; i < 3; i++) {
+        printf("Aluno %d: %s - Nota: %.2f\n", i + 1, turma[i].nome, turma[i].nota);
+    }
+    
+    return 0;
+}
